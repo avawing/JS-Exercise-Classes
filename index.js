@@ -141,7 +141,13 @@ class Lambdasian {
     - Instructor instances have the following methods:
         + `demo` receives a `subject` string as an argument and returns the phrase 'Today we are learning about {subject}' where subject is the param passed in.
         + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
-*/
+ Now that our students have a grade build out a method on the Instructor (this will be used by _BOTH_ instructors and PM's)
+  that will randomly add or subtract points to a student's grade. _Math.random_ will help.
+
+        */
+
+
+
 class Instructor extends Lambdasian{
   constructor(attr){
     super(attr)
@@ -154,6 +160,11 @@ class Instructor extends Lambdasian{
     }
     grade(student, subject){
     return `${student.name} receives a perfect score on ${subject}`
+    }
+    gradeAssignment(student){
+    let random = (Math.floor(Math.random()*10));
+    var plusOrMinus = Math.random() < 0.5 ? -1 : 1;
+    student.grade += random * plusOrMinus; 
     }
 
 }
@@ -172,6 +183,10 @@ class Instructor extends Lambdasian{
         + `listSubjects` a method that returns all of the student's favSubjects in a single string: `Loving HTML, CSS, JS!`.
         + `PRAssignment` a method that receives a subject as an argument and returns `student.name has submitted a PR for {subject}`
         + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
+
+        - Add a graduate method to a student.
+      + This method, when called, will check the grade of the student and see if they're ready to graduate from Lambda School
+      + If the student's grade is above a 70% let them graduate! Otherwise go back to grading their assignments to increase their score.
 */
 class Student extends Lambdasian{
   constructor(attr){
@@ -179,7 +194,7 @@ class Student extends Lambdasian{
     this.previousBackground = attr.previousBackground;
     this.className = attr.className;
     this.favSubjects = attr.favSubjects;
-    this.grade = attr.grade;
+    this.grade = 50;
   }
   listSubjects(){
     return `Loving ${this.favSubjects.toString()}!`
@@ -189,6 +204,13 @@ class Student extends Lambdasian{
   }
   sprintChallenge(subject){
     return `${this.name} has begun sprint challenge on ${subject}`
+  }
+  graduate(instructor){
+    if(this.grade > 70){
+      return `You can graduate!`
+    } else{
+      instructor.gradeAssignment(this.grade);
+    }
   }
 
 }
