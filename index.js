@@ -41,9 +41,9 @@ class Airplane {
 */
 
 class Person {
-    constructor(attr) {
-      this.name = attr.name;
-      this.age = attr.age;
+    constructor(name, age) {
+      this.name = name;
+      this.age = age;
       this.stomach = [];
     }
     eat(someFood){
@@ -76,22 +76,22 @@ class Person {
 */
 
 class Car {
-  constructor(attr) {
-    this.model = attr.model;
-    this.milesPerGallon = attr.milesPerGallon;
+  constructor(model, milesPerGallon) {
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
     this.tank = 0;
     this.odometer = 0;
   }
   drive(distance){
-    if(this.tank > distance/this.milesPerGallon){
-      this.tank -= distance/this.milesPerGallon;
+    if (this.tank <= 0) {
+      return `I ran out of fuel at ${this.odometer} miles!`;
+    } else if (this.tank > distance / this.milesPerGallon) {
       this.odometer += distance;
-    }
-    if(this.tank < distance/this.milesPerGallon){
-      this.tank = 0;
+      this.tank -= distance / this.milesPerGallon;
+    } else if (this.tank < distance / this.milesPerGallon && this.tank > 0) {
       this.odometer += this.milesPerGallon * this.tank;
-      console.log(`I ran out of fuel at ${this.odometer} miles!`)
-
+      this.tank = 0;
+      return `I ran out of fuel at ${this.odometer} miles!`;
     }
   }
   fill(gallons) {
@@ -100,7 +100,6 @@ class Car {
 
 
 }
-
 
 /*
   TASK 3
@@ -122,7 +121,7 @@ class Lambdasian {
   }
 
   speak() {
-    return `Hello, my name is ${name}, I am from ${location}.`
+    return `Hello, my name is ${this.name}, I am from ${this.location}.`
   }
 
 
@@ -148,7 +147,7 @@ class Instructor extends Lambdasian{
     super(attr)
       this.specialty= attr.specialty;
       this.favLanguage = attr.favLanguage;
-      this.catchPhrase = this.catchPhrase;
+      this.catchPhrase = attr.catchPhrase;
     }
     demo(subject){
       return `Today we are learning about${subject}.`
@@ -180,6 +179,7 @@ class Student extends Lambdasian{
     this.previousBackground = attr.previousBackground;
     this.className = attr.className;
     this.favSubjects = attr.favSubjects;
+    this.grade = attr.grade;
   }
   listSubjects(){
     return `Loving ${this.favSubjects.toString()}!`
